@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parent Membership Card</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function(){
+      emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your EmailJS public key
+    })();
+  </script>
+</head>
+<body class="bg-gray-100 p-10 font-sans">
+  <h1 class="text-3xl font-bold text-center mb-8">Parent Membership Card</h1>
+
+  <!-- Terms and Conditions Button -->
+  <div class="text-center mb-6">
+    <button onclick="showTerms()" class="bg-gray-700 text-white px-4 py-2 rounded-lg">View Terms & Conditions</button>
+    <label class="ml-4">
+      <input type="checkbox" id="agreeCheckbox" class="mr-2"> I agree to the terms
+    </label>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+    <!-- Standard -->
+    <div class="bg-green-200 p-6 rounded-2xl shadow-lg">
+      <h2 class="text-xl font-bold">STANDARD</h2>
+      <p class="text-lg font-semibold">£0.99 / month</p>
+      <ul class="list-disc pl-6 mt-4 text-sm">
+        <li>I’ll wash all the dishes</li>
+        <li>Bacon sandwich once a week</li>
+        <li>I’ll do 5 extra chores</li>
+        <li>I’ll make a salad twice a week</li>
+        <li>I’ll do the Shana on my own twice a week</li>
+        <li>One IOU a month</li>
+        <li>1 “You are right” coupon a week</li>
+        <li>1 story a week</li>
+      </ul>
+      <button onclick="sendEmail('Standard - £0.99/month')" class="mt-6 bg-green-600 text-white px-4 py-2 rounded-lg">Choose Standard</button>
+    </div>
+
+    <!-- Pro -->
+    <div class="bg-orange-200 p-6 rounded-2xl shadow-lg">
+      <h2 class="text-xl font-bold">PRO</h2>
+      <p class="text-lg font-semibold">£2.19 / month</p>
+      <ul class="list-disc pl-6 mt-4 text-sm">
+        <li>I’ll wash all the dishes</li>
+        <li>Bacon sandwiches twice a week</li>
+        <li>I’ll do an extra chore every day</li>
+        <li>I’ll make a salad whenever you want</li>
+        <li>I’ll do the Shana on my own 4 times a week</li>
+        <li>2 IOUs a month</li>
+        <li>2 “You are right” coupons a week</li>
+        <li>3 stories a week</li>
+      </ul>
+      <button onclick="sendEmail('Pro - £2.19/month')" class="mt-6 bg-orange-600 text-white px-4 py-2 rounded-lg">Choose Pro</button>
+    </div>
+
+    <!-- Unlimited -->
+    <div class="bg-blue-200 p-6 rounded-2xl shadow-lg">
+      <h2 class="text-xl font-bold">UNLIMITED</h2>
+      <p class="text-lg font-semibold">£5.99 / month</p>
+      <ul class="list-disc pl-6 mt-4 text-sm">
+        <li>I’ll wash all the dishes</li>
+        <li>Bacon sandwiches whenever you want</li>
+        <li>I’ll do any extra chores</li>
+        <li>I’ll make a salad whenever you want</li>
+        <li>I’ll do the Shana on my own whenever you want</li>
+        <li>1 IOU a week</li>
+        <li>3 “You are right” coupons a week</li>
+        <li>1 story every night</li>
+      </ul>
+      <button onclick="sendEmail('Unlimited - £5.99/month')" class="mt-6 bg-blue-600 text-white px-4 py-2 rounded-lg">Choose Unlimited</button>
+    </div>
+
+  </div>
+
+  <!-- Terms Modal -->
+  <div id="termsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+    <div class="bg-white rounded-xl p-6 max-w-lg mx-auto">
+      <h2 class="text-xl font-bold mb-4">Terms and Conditions</h2>
+      <p class="text-sm mb-4">
+        By agreeing to these terms, you agree that for 'Whenever you want' I will do it, but I don't mean literally on the spot. You will pay for all of the food, but I will make it. You will have to pay me unless you say you cancel. You can only cancel at the end of your current supscription. If you upgrade during your supscription you will have to pay the full price of the plan you upgraded too. I can spend the money on whatever I want.
+    </p>
+      <button onclick="hideTerms()" class="bg-blue-600 text-white px-4 py-2 rounded-lg">Close</button>
+    </div>
+  </div>
+
+  <script>
+    function showTerms() {
+      document.getElementById('termsModal').classList.remove('hidden');
+      document.getElementById('termsModal').classList.add('flex');
+    }
+
+    function hideTerms() {
+      document.getElementById('termsModal').classList.add('hidden');
+      document.getElementById('termsModal').classList.remove('flex');
+    }
+
+    function sendEmail(plan) {
+      const agreed = document.getElementById('agreeCheckbox').checked;
+      if (!agreed) {
+        alert("You must agree to the terms and conditions before selecting a plan.");
+        return;
+      }
+
+      emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+        plan: plan,
+        to_email: "YOUR_EMAIL@gmail.com"
+      })
+      .then(function() {
+        alert("Notification sent to your Gmail about: " + plan);
+      }, function(error) {
+        alert("Tell me you have registered!");
+      });
+    }
+  </script>
+</body>
+</html>
